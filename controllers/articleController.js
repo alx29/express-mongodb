@@ -37,7 +37,16 @@ const setArticle = asyncHandler(async (req, res) => {
   const article = await Article.create({
     Article_no: req.body.Article_no,
     Article_short_description: req.body.Article_short_description,
-  })
+    Article_date: req.body.Article_date,
+    Collection_date: req.body.Collection_date,
+    Article_body: req.body.Article_body,
+    Article_source: req.body.Article_source,
+    Article_URL: req.body.Article_URL,
+    Location: req.body.Location,
+    Article_keywords: req.body.Article_keywords,
+    Article_weight: req.body.Article_weight,
+    Article_citations: req.body.Article_citations,
+  });
 
   res.status(200).json(article);
 });
@@ -65,7 +74,7 @@ const updateArticle = asyncHandler(async (req, res) => {
 
   const updatedArticle = await Article.findByIdAndUpdate(req.params.id, req.body, { new: true });
 
-  res.status(200).json(updateArticle);
+  res.status(200).json(updatedArticle);
 });
 
 module.exports = { getArticles, setArticle, deleteArticle, updateArticle };

@@ -7,6 +7,33 @@ const articleSchema = mongoose.Schema(
     },
     Article_short_description: {
       type: String,
+    },
+    Article_date: {
+      type: Date,
+    },
+    Collection_date: {
+      type: Date,
+    },
+    Article_body: {
+      type: String,
+    },
+    Article_source: {
+      type: String,
+    },
+    Article_URL: {
+      type: String,
+    },
+    Location: {
+      type: String,
+    },
+    Article_keywords: {
+      type: String,
+    },
+    Article_weight: {
+      type: Number
+    },
+    Article_citations: {
+      type: String,
     }
   },
   {
