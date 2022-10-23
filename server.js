@@ -13,6 +13,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use('/api/articles', require('./routes/articleRoutes'));
+app.use('/api/categories', require('./routes/categoryRoutes'));
+app.use('/api/tokens', require('./routes/tokenRoutes'));
 
 app.use(errorHandler);
 
