@@ -1,5 +1,7 @@
 const asyncHandler = require('express-async-handler');
 const Article = require('../models/articleModel');
+const Token = require('../models/tokenModel');
+const Category = require('../models/categoryModel');
 
 const getArticles = asyncHandler(async (req, res) => {
   const articles = await Article.find();
@@ -49,6 +51,31 @@ const setArticle = asyncHandler(async (req, res) => {
     Tokens: req.body.Tokens,
     Category: req.body.Category,
   });
+  
+  if (article.Tokens !== undefined) {
+    const tokens = await Token.find();
+    
+    for (token of tokens) {
+      for (token_id of article.Tokens) {
+        if (token.id === token_id) {
+          token.Articles.push(article.id);
+          await Token.findByIdAndUpdate(token.id, token);
+        }
+      }
+    }
+  }
+
+  if (article.Category !== undefined) {
+    const categories = await Category.find();
+
+    for (category of categories) {
+      if (category.id === article.Category) {
+        category.Article = article.id;
+        await Category.findByIdAndUpdate(category.id, category);
+        break;
+      }
+    }
+  }
 
   res.status(200).json(article);
 });
@@ -59,6 +86,21 @@ const deleteArticle = asyncHandler(async (req, res) => {
   if (!article) {
     res.status(404);
     throw new Error('Article not found');
+  }
+
+  const tokens = await Token.find();
+  for (token of tokens) {
+    token.Articles = token.Articles.filter(article_id => article_id !== article.id);
+    await Token.findByIdAndUpdate(token.id, token);
+  }
+
+  const categories = await Category.find();
+  for (category of categories) {
+    if (category.Article === article.id) {
+      category.Article = '';
+      await Category.findByIdAndUpdate(category.id, category);
+      break;
+    }
   }
 
   const deletedArticle = await Article.findByIdAndDelete(req.params.id);

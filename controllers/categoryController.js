@@ -1,5 +1,6 @@
 const asyncHandler = require('express-async-handler');
 const Category = require('../models/categoryModel');
+const Article = require('../models/articleModel');
 
 const getCategories = asyncHandler(async (req, res) => {
   const categories = await Category.find();
@@ -16,7 +17,20 @@ const setCategory = asyncHandler(async (req, res) => {
 
   const category = await Category.create({
     Category_name: req.body.Category_name,
+    Article: req.body.Article,
   });
+
+  if (category.Article !== undefined) {
+    const articles = await Article.find();
+
+    for (art of articles) {
+      if (art.id === category.Article) {
+        art.Category = category.id;
+        await Article.findByIdAndUpdate(art.id, art);
+        break;
+      }
+    }
+  }
 
   res.status(200).json(category);
 });
@@ -27,6 +41,18 @@ const deleteCategory = asyncHandler(async (req, res) => {
   if (!category) {
     res.status(404);
     throw new Error('Category not found');
+  }
+
+  if (category.Article !== undefined) {
+    const articles = await Article.find();
+
+    for (art of articles) { 
+      if (art.id === category.Article) {
+        art.Category = '';
+        await Article.findByIdAndUpdate(art.id, art);
+        break;
+      }
+    }
   }
 
   const deletedCategory = await Category.findByIdAndDelete(req.params.id);

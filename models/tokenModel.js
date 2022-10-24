@@ -6,7 +6,7 @@ const tokenSchema = mongoose.Schema(
       type: String,
     },
     Articles: {
-      type: String,
+      type: [String],
     }
   },
   {
