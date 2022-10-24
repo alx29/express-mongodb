@@ -31,7 +31,7 @@ const setArticle = asyncHandler(async (req, res) => {
   if (!req.body.Article_no) {
     res.status(400);
 
-    throw new Error('Please add a text field');
+    throw new Error('Please add a Article_no field');
   }
 
   const article = await Article.create({
@@ -46,6 +46,8 @@ const setArticle = asyncHandler(async (req, res) => {
     Article_keywords: req.body.Article_keywords,
     Article_weight: req.body.Article_weight,
     Article_citations: req.body.Article_citations,
+    Tokens: req.body.Tokens,
+    Category: req.body.Category,
   });
 
   res.status(200).json(article);

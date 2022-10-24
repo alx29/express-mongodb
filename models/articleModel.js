@@ -34,6 +34,12 @@ const articleSchema = mongoose.Schema(
     },
     Article_citations: {
       type: String,
+    },
+    Category: {
+      type: String,
+    },
+    Tokens: {
+      type: [String],
     }
   },
   {

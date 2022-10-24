@@ -5,6 +5,9 @@ const categorySchema = mongoose.Schema(
     Category_name: {
       type: String,
     },
+    Article: {
+      type: String,
+    }
   },
   {
     timestamps: true,

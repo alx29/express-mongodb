@@ -5,6 +5,9 @@ const tokenSchema = mongoose.Schema(
     Token_body: {
       type: String,
     },
+    Articles: {
+      type: String,
+    }
   },
   {
     timestamps: true,
